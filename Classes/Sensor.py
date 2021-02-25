@@ -2,8 +2,6 @@ import json
 import Scripts.ConexionMySQL as mysql
 import Scripts.ConexionMongoDB as mongo
 
-#mydb = mysql
-
 
 class Sensor:
     def __init__(self, id=None, sensor=None):

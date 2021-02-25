@@ -17,7 +17,7 @@ for x in cursor:
     v = False
 if v:
     cursor.execute("CREATE TABLE sensors (id int AUTO_INCREMENT PRIMARY KEY , sensor VARCHAR(50))")
-    cursor.execute("CREATE TABLE results (id Int AUTO_INCREMENT PRIMARY KEY , sesonr int , date VARCHAR(100))")
+    cursor.execute("CREATE TABLE results (id Int AUTO_INCREMENT PRIMARY KEY , sesonr int , data_int VARCHAR(), date VARCHAR(100))")
     cursor.execute("SHOW TABLES")
 else:
     pass

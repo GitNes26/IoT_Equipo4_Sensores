@@ -1,12 +1,12 @@
-import json
-import Scripts.ConexionMySQL as mysql
-import Scripts.ConexionMongoDB as mongo
+#import json
+#import Scripts.ConexionMySQL as mysql
+#import Scripts.ConexionMongoDB as mongo
 from Classes.Sensor import Sensor as sensor
 from Classes.Result import Result as result
 
 S = sensor()
 R = result()
-mydb = mysql
+#mydb = mysql
 dbTitle = ''
 dbs = ''
 menu = True
@@ -19,22 +19,22 @@ def selectDB():
     print("|     1.- MySQL     2.- MongoDB     3.- LocalJSON    |")
     mydb = input("| Elige que base de datos desea utilizar: ")
     if mydb == '1':
-        mydb = mysql
+        #mydb = mysql
         print("|                BD -> MySQL                         |")
         dbTitle = "-MySQL-"
         dbs = 'mysql'
     elif mydb == '2':
-        mydb = mongo
+        #mydb = mongo
         print("|                BD -> MongoDB                       |")
         dbTitle = "MongoDB"
         dbs = 'mongo'
     else:
-        mydb = json
+        #mydb = json
         print("|                BD -> LocalJSON                     |")
         dbTitle = "-JSON--"
         dbs = 'json'
     print("|                                                    |")
-    return (dbTitle, mydb, dbs)
+    return (dbTitle, dbs)#,mydb)
 
 def menu():
     print("|----------------------- MENU -------------" + db[0] + "---|")
@@ -59,20 +59,31 @@ def SubMenu():
 #METODOS CON LOS OBJETOS
 def show(table):
     if table == 'sensors':
-        reg = S.show(db[2])
+        reg = S.show(db[1])
         print("| ID ||   SENSOR\t|")
         for r in reg:
-            if db[2] == 'mysql':
+            if db[1] == 'mysql':
                 print("| "+str(r[0])+"\t||"+r[1]+"\t|")
-            elif db[2] == 'mongo':
+            elif db[1] == 'mongo':
                 print("| "+str(r['id'])+"\t||"+r['sensor']+"\t|")
+            else:
+                print("en json")
+    else:
+        reg = R.show(db[1])
+        print("| ID ||   SENSOR_ID\t||   DATA\t\t||   DATE\t\t|")
+        for r in reg:
+            if db[1] == 'mysql':
+                print("| " + str(r[0]) + "\t||" + str(r[1]) + "\t||" + str(r[2]) + "\t||" + r[3] + "\t||")
+            elif db[1] == 'mongo':
+                print("| " + str(r['id']) + "\t||" + str(r['sensor_id']) + "\t||" + str(r['data']) + "\t||" + r['date'] + "\t||")
             else:
                 print("en json")
 
 
 
+
 db = selectDB()
-mydb = db[1]
+#mydb = db[1]
 while menu != True:
     action = menu()
     if action in ("1", "2", "3", "0"):
@@ -85,7 +96,7 @@ while menu != True:
                 table = 'results'
             else:
                 db = selectDB()
-                mydb = db[1]
+                #mydb = db[1]
                 action = menu()
             action = SubMenu()
             if action == "1":
@@ -116,24 +127,3 @@ while menu != True:
 
     else: print("Opcion Invalida|debe de ser un numero entero entre el 0-3\n")
 else: print("Fin...")
-
-
-
-#t = 'sensors'
-#s = 'sensorPIR'
-
-'''PRUEBAS EN MySQL'''
-#mysql.insert(t, 'SensorPIR')
-#mysql.update(t, 'sensor', 'sensor de Temperatura', 'id', '=', 1)
-#mysql.delete(t, 1)
-#ver = mysql.show(t)
-#for x in ver:
-#    print(x)
-
-'''CRUD CON MongoDB'''
-#mongo.insert(t,'temperatura')
-#mongo.update(t, 'sensor', 'Sensor de Movimiento', 'id', '=', 1)
-#mongo.delete(t, 0)
-#ver = mongo.show(t)
-#for x in ver:
-#    print(x)

@@ -10,13 +10,13 @@ colR = mydb['results']
 print("MongoDB -> conectado")
 
 '''SEEDERS'''
-data = {"id": 0, "sensor": "sensor"}
-s = colS.insert_one(data)
-print(s.inserted_id)
+#data = {"id": 0, "sensor": "sensor"}
+#s = colS.insert_one(data)
+#print(s.inserted_id)
 
-data = {"id": 0, "sensor_id": 0, "data": 0.0, "date": "00-00-00 00:00"}
-r = colR.insert_one(data)
-print(r.inserted_id)
+#data = {"id": 0, "sensor_id": 0, "data": 0.0, "date": "00-00-00 00:00"}
+#r = colR.insert_one(data)
+#print(r.inserted_id)
 
 '''MOSTRAR ID'''
 def showID():
