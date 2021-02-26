@@ -1,6 +1,7 @@
 #import json
 #import Scripts.ConexionMySQL as mysql
 #import Scripts.ConexionMongoDB as mongo
+import datetime
 from Classes.Sensor import Sensor as sensor
 from Classes.Result import Result as result
 
@@ -60,26 +61,64 @@ def SubMenu():
 def show(table):
     if table == 'sensors':
         reg = S.show(db[1])
-        print("| ID ||   SENSOR\t|")
+        print("| ID ||   SENSOR\t||   CREATE_AT\t\t||   UPDATE_AT\t\t|")
         for r in reg:
             if db[1] == 'mysql':
-                print("| "+str(r[0])+"\t||"+r[1]+"\t|")
+                print("| "+str(r[0])+"\t||"+str(r[1])+"\t||"+str(r[2])+"\t||"+str(r[3])+"\t|")
             elif db[1] == 'mongo':
-                print("| "+str(r['id'])+"\t||"+r['sensor']+"\t|")
+                print("| "+str(r['id'])+"\t||"+str(r['sensor'])+"\t|" + str(r['create_at']) + "\t||" + str(r['update_at']) + "\t|")
             else:
                 print("en json")
     else:
         reg = R.show(db[1])
-        print("| ID ||   SENSOR_ID\t||   DATA\t\t||   DATE\t\t|")
+        print("| ID ||   SENSOR_ID\t||   DATA\t\t||   CREATE_AT\t\t||   UPDATE_AT\t\t|")
         for r in reg:
             if db[1] == 'mysql':
-                print("| " + str(r[0]) + "\t||" + str(r[1]) + "\t||" + str(r[2]) + "\t||" + r[3] + "\t||")
+                print("| " + str(r[0]) + "\t||" + str(r[1]) + "\t||" + str(r[2]) + "\t||" + str(r[3]) + "\t||" + str(r[4]) + "\t|")
             elif db[1] == 'mongo':
-                print("| " + str(r['id']) + "\t||" + str(r['sensor_id']) + "\t||" + str(r['data']) + "\t||" + r['date'] + "\t||")
+                print("| " + str(r['id']) + "\t||" + str(r['sensor_id']) + "\t||" + str(r['data']) + "\t||" + str(r['create_at']) + "\t||" + str(r['update_at']) + "\t|")
             else:
                 print("en json")
 
+def insert(table):
+    if table == 'sensors':
+        sensor = input("| Nombre del sensor: ")
+        date = str(datetime.datetime.now())
+        S.insert(sensor, date, db[1])
+        print("| Sensor registrado")
+    else:
+        sensor_id = input("| Id del sensor: ")
+        data = input("| Dato de lectura: ")
+        date = str(datetime.datetime.now())
+        R.insert(sensor_id, data, date, db[1])
+        print("| Registro agregado")
 
+def update(table):
+    fieldSet = input("Cambiar el campo: ")
+    valueSet = input("Con el valor: ")
+    date = str(datetime.datetime.now())
+    #fieldWhere = input("Donde el campo: ")
+    #conditional = input("Sea...(=,<,>,...): ")
+    #valueWhere = input("Al valor: ")
+    valueWhere = input("Al que tenga el ID: ")
+    if table == 'sensors':
+        #S.update(fieldSet, valueSet, date, fieldWhere, conditional, valueWhere)
+        S.update(fieldSet, valueSet, date, valueWhere, db[1])
+        print("| Sensor Actualizado")
+    else:
+        #R.update(fieldSet, valueSet, date, fieldWhere, conditional, valueWhere)
+        R.update(fieldSet, valueSet, date, valueWhere, db[1])
+        print("| Registro Actualizado")
+
+def delete(table):
+    if table == 'sensors':
+        valueID = input("ID del sensor: ")
+        S.delete(valueID, db[1])
+        print("| Sensor Eliminado")
+    else:
+        valueID = input("ID del registro: ")
+        R.delete(valueID, db[1])
+        print("| Registro eliminado")
 
 
 db = selectDB()
@@ -94,10 +133,15 @@ while menu != True:
             elif action == "2":
                 print("|--------------------- RESULTADOS -------------------|")
                 table = 'results'
-            else:
+            elif action == "3":
                 db = selectDB()
                 #mydb = db[1]
                 action = menu()
+            elif action == "0":
+                print("HAS SALIDO DEL MENU\n")
+                menu = False
+                break
+
             action = SubMenu()
             if action == "1":
                 print(
@@ -107,23 +151,20 @@ while menu != True:
                     "|---------------------------------------------------------------------------------------------------------------------------------------|\n")
             elif action == "2":
                 print("|------------------ REGISTRAR -------------------|")
-                #InsertarDB(table)
+                insert(table)
                 print("|------------------------------------------------|\n")
             elif action == "3":
                 print("|------------------- MODIFICAR ------------------|")
                 if table == 'prestamos':
                     print("|----------------- DEVOLUCIONES -----------------|")
-                #ActualizarDB(table)
+                update(table)
                 print("|------------------------------------------------|\n")
             elif action == "4":
                 print("|------------------- ELIMINAR -------------------|")
-                #EliminarDB(table)
+                delete(table)
                 print("|------------------------------------------------|\n")
             else:
                 pass
-        else:
-            print("HAS SALIDO DEL MENU\n")
-            menu = False
 
     else: print("Opcion Invalida|debe de ser un numero entero entre el 0-3\n")
 else: print("Fin...")
