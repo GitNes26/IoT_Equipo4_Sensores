@@ -31,7 +31,7 @@ class Sensor:
 
     def update(self, fieldSet, valueSet, date, valueWhere, db):
         mydb = self.selectDB(db)
-        mydb.update('sensors', fieldSet, valueSet, date, valueWhere)
+        mydb.update('sensors', fieldSet=fieldSet, valueSet=valueSet, update_at=date, valueWhere=valueWhere)
 
     #def update(self, fieldSet, valueSet, date, fieldWhere, conditional, valueWhere, db):
     #    mydb = self.selectDB(db)

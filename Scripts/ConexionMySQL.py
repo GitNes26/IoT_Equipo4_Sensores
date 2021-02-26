@@ -50,16 +50,6 @@ def show(table):
     return myResult
 
 '''ACTUALIZAR DATOS'''
-#def update(table, fieldSet, valueSet, update_at, fieldWhere, coditional, valueWhere):
-#    sql = ("UPDATE " + table +
-#           " SET " + fieldSet + " = %s ,"
-#           " SET update_at = %s "
-#           "WHERE " + fieldWhere + " " + coditional + " %s")
-#    val = (valueSet, update_at, valueWhere)
-#    cursor.execute(sql, val)
-#    mydb.commit()
-#    print(cursor.rowcount, " fila(s) actualizada(s)")
-
 def update(table, fieldSet, valueSet, update_at, valueWhere):
     sql = ("UPDATE " + table +
            " SET " + fieldSet + " = %s"

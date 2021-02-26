@@ -34,10 +34,7 @@ def selectCollection(collection):
 
 '''INSERTAR DOCUMENTO'''
 def insert(collection, sensor=None, sensor_id=None, data=None, create_at=None, update_at=None):
-    if collection == 'sensors':
-        col = mydb["sensors"]
-    else:
-        col = mydb["results"]
+    col = selectCollection(collection)
 
     c = col.find({}, {"_id": 0, "id": 1}).sort("id", -1).limit(1)
     for i in c:
@@ -66,28 +63,49 @@ def insert(collection, sensor=None, sensor_id=None, data=None, create_at=None, u
 
 '''MOSTRAR DOCUMENTO'''
 def show(collection):
-    col = mydb[collection]
+    col = selectCollection(collection)
+
     x = col.find({}, {"_id": 0})
 
     return x
 
 
 '''ACTUALIZAR DOCUMENTO'''
-def update(collection, fieldSet, valueSet, update_at, fieldWhere=None, valueWhere=None):
-    col = mydb[collection]
+def update(collection, fieldSet, valueSet, update_at, valueWhere, fieldWhere=None):
+    col = selectCollection(collection)
 
-    fieldWhere = 'sensor'
+    fieldWhere = 'id'
+    query = {fieldWhere: valueWhere}
     conditional = '$set'
-    query = {fieldWhere: valueWhere, 'update_at':update_at}
     val = {conditional: {fieldSet: valueSet}}
 
     x = col.update_one(query, val)
-    print(x.modified_count, " documento(s) modificado(s)")
+    updateAt(collection, update_at, valueSet)
+def updateAt(collection, update_at, id):
+    col = selectCollection(collection)
+    query = {"id": id}
+    val = {"$set": {"update_at": update_at}}
+
+    x = col.update_one(query, val)
+    print(x.modified_count, " fecha actualizada")
+'''def update(collection, id, valueSet, update_at):
+    col = selectCollection(collection)
+
+    query = {"id": id}
+    val = {"$set": {"sensor": valueSet}}
+
+    x = col.update_one(query, val)
+
+    query = {'update_at': update_at}
+    val = {"$set": {"id": id}}
+
+    x = col.update_one(query, val)
+    print(x.modified_count, " documento(s) modificado(s)")'''
 
 
 '''ELIMINAR DOCUMENTO'''
 def delete(collection, valueID):
-    col = mydb[collection]
+    col = selectCollection(collection)
 
     query = {'id': valueID}
     x = col.delete_one(query)

@@ -1,13 +1,10 @@
-#import json
-#import Scripts.ConexionMySQL as mysql
-#import Scripts.ConexionMongoDB as mongo
 import datetime
 from Classes.Sensor import Sensor as sensor
 from Classes.Result import Result as result
+#import GPIO
 
 S = sensor()
 R = result()
-#mydb = mysql
 dbTitle = ''
 dbs = ''
 menu = True
@@ -100,7 +97,7 @@ def update(table):
     #fieldWhere = input("Donde el campo: ")
     #conditional = input("Sea...(=,<,>,...): ")
     #valueWhere = input("Al valor: ")
-    valueWhere = input("Al que tenga el ID: ")
+    valueWhere = int(input("Al que tenga el ID: "))
     if table == 'sensors':
         #S.update(fieldSet, valueSet, date, fieldWhere, conditional, valueWhere)
         S.update(fieldSet, valueSet, date, valueWhere, db[1])
@@ -122,7 +119,6 @@ def delete(table):
 
 
 db = selectDB()
-#mydb = db[1]
 while menu != True:
     action = menu()
     if action in ("1", "2", "3", "0"):
@@ -135,7 +131,6 @@ while menu != True:
                 table = 'results'
             elif action == "3":
                 db = selectDB()
-                #mydb = db[1]
                 action = menu()
             elif action == "0":
                 print("HAS SALIDO DEL MENU\n")
@@ -145,10 +140,10 @@ while menu != True:
             action = SubMenu()
             if action == "1":
                 print(
-                    "|---------------------------------------------------------- MOSTRAR --------------------------------------------------------------|")
+                    "|-------------------------------- MOSTRAR ----------------------------------|")
                 show(table)
                 print(
-                    "|---------------------------------------------------------------------------------------------------------------------------------------|\n")
+                    "|---------------------------------------------------------------------------|\n")
             elif action == "2":
                 print("|------------------ REGISTRAR -------------------|")
                 insert(table)

@@ -15,7 +15,7 @@ def listsJSON(table):
 
 def getId(table, dataJSON):
     data = listsJSON(table)
-    with open('Scripts/DataJSON/'+dataJSON) as f:
+    with open('Scripts/DataJSON/'+data[1]) as f:
         listJSON = json.load(f)
         for i in listJSON['sensorList']:
             id = i['id']
