@@ -3,7 +3,7 @@ import json
 #ArrayList = []
 data = {}
 
-def listJSON(table):
+def listsJSON(table):
     if table == 'sensors':
         data['sensorList'] = []
         dataJSON = 'dataSensors.json'
@@ -14,7 +14,7 @@ def listJSON(table):
 
 
 def getId(table, dataJSON):
-    data = listJSON(table)
+    data = listsJSON(table)
     with open('Scripts/DataJSON/'+dataJSON) as f:
         listJSON = json.load(f)
         for i in listJSON['sensorList']:
