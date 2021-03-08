@@ -4,11 +4,14 @@ import Scripts.ConexionMongoDB as mongo
 
 
 class Sensor:
-    def __init__(self, id=None, sensor=None, create_at=None, update_at=None):
+    def __init__(self, reg=None, id=None, sensor=None, com=None, description=None, created_at=None, updated_at=None):
+        self.reg = reg
         self.id = id
         self.sensor = sensor
-        self.create_at = create_at
-        self.update_at = update_at
+        self.com = com
+        self.description = description
+        self.created_at = created_at
+        self.updated_at = updated_at
 
     def selectDB(self, db):
         if db == 'mysql':
@@ -19,10 +22,10 @@ class Sensor:
             db = json
         return db
 
-    def insert(self, sensor, date, db):
+    def insert(self, id, sensor, com, description, date, db):
         mydb = self.selectDB(db)
-        newSensor = Sensor(sensor=sensor, create_at=date, update_at=date)
-        mydb.insert('sensors', sensor=newSensor.sensor, create_at=newSensor.create_at, update_at=newSensor.update_at)
+        newSensor = Sensor(id=id, sensor=sensor, com=com, description=description, created_at=date, updated_at=date)
+        mydb.insert('sensors', id=newSensor.id, sensor=newSensor.sensor, com=newSensor.com, description=newSensor.description, created_at=newSensor.created_at, updated_at=newSensor.updated_at)
 
     def show(self, db):
         mydb = self.selectDB(db)
@@ -31,7 +34,7 @@ class Sensor:
 
     def update(self, fieldSet, valueSet, date, valueWhere, db):
         mydb = self.selectDB(db)
-        mydb.update('sensors', fieldSet=fieldSet, valueSet=valueSet, update_at=date, valueWhere=valueWhere)
+        mydb.update('sensors', fieldSet=fieldSet, valueSet=valueSet, updated_at=date, valueWhere=valueWhere)
 
     #def update(self, fieldSet, valueSet, date, fieldWhere, conditional, valueWhere, db):
     #    mydb = self.selectDB(db)

@@ -4,12 +4,12 @@ import Scripts.ConexionMongoDB as mongo
 
 
 class Result:
-    def __init__(self, id=None, sensor_id=None, data=None, create_at=None, update_at=None):
-        self.id = id
+    def __init__(self, reg=None, sensor_id=None, data=None, created_at=None, updated_at=None):
+        self.reg = reg
         self.sensor_id = sensor_id
         self.data = data
-        self.create_at = create_at
-        self.update_at = update_at
+        self.created_at = created_at
+        self.updated_at = updated_at
 
     def selectDB(self, db):
         if db == 'mysql':
@@ -22,8 +22,8 @@ class Result:
 
     def insert(self, sensor_id, data, date, db):
         mydb = self.selectDB(db)
-        newResult = Result(sensor_id=sensor_id, data=data, create_at=date, update_at=date)
-        mydb.insert('results', sensor_id=newResult.sensor_id, data=newResult.data, create_at=newResult.create_at, update_at=newResult.update_at)
+        newResult = Result(sensor_id=sensor_id, data=data, created_at=date, updated_at=date)
+        mydb.insert('results', sensor_id=newResult.sensor_id, data=newResult.data, created_at=newResult.created_at, updated_at=newResult.updated_at)
 
     def show(self, db):
         mydb = self.selectDB(db)
@@ -32,7 +32,7 @@ class Result:
 
     def update(self, fieldSet, valueSet, date, valueWhere, db):
         mydb = self.selectDB(db)
-        mydb.update('results', fieldSet, valueSet, date, valueWhere)
+        mydb.update('results', fieldSet=fieldSet, valueSet=valueSet, updated_at=date, valueWhere=valueWhere)
 
 
     #def update(self, fieldSet, valueSet, fieldWhere, date, conditional, valueWhere, db):

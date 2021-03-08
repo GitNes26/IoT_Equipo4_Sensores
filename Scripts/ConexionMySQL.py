@@ -16,8 +16,8 @@ cursor.execute("SHOW TABLES")
 for x in cursor:
     v = False
 if v:
-    cursor.execute("CREATE TABLE sensors (id int AUTO_INCREMENT PRIMARY KEY , sensor VARCHAR(50), create_at VARCHAR(100), update_at VARCHAR (100))")
-    cursor.execute("CREATE TABLE results (id Int AUTO_INCREMENT PRIMARY KEY , sensor_id int , data int, create_at VARCHAR(100), update_at VARCHAR (100))")
+    cursor.execute("CREATE TABLE sensors (reg int AUTO_INCREMENT PRIMARY KEY, id VARCHAR(20), sensor VARCHAR(50), com VARCHAR(20), description VARCHAR(255), created_at VARCHAR(100), updated_at VARCHAR (100))")
+    cursor.execute("CREATE TABLE results (reg Int AUTO_INCREMENT PRIMARY KEY, sensor_id int , data_double DOUBLE, data_string VARCHAR(100), data_bool BOOLEAN, created_at VARCHAR(100), updated_at VARCHAR (100))")
     cursor.execute("SHOW TABLES")
 else:
     pass
@@ -29,13 +29,13 @@ def showID():
 
 
 '''INSERTAR DATOS'''
-def insert(table, sensor=None, sensor_id=None, data=None, create_at=None, update_at=None):
+def insert(table, id=None, sensor=None, sensor_id=None, com=None, description=None, data=None, created_at=None, updated_at=None):
     if table == 'sensors':
-        sql = "INSERT INTO " + table + " (sensor, create_at, update_at) VALUES (%s,%s,%s)"
-        val = (sensor, create_at, update_at)
+        sql = "INSERT INTO " + table + " (id, sensor, com, description, created_at, updated_at) VALUES (%s,%s,%s,%s,%s,%s)"
+        val = (id, sensor, com, description, created_at, updated_at)
     else:
-        sql = ("INSERT INTO " + table + " (sensor_id, data, create_at, update_at) VALUES (%s,%s,%s,%s)")
-        val = (sensor_id, data, create_at, update_at)
+        sql = ("INSERT INTO " + table + " (sensor_id, data_string, created_at, updated_at) VALUES (%s,%s,%s,%s)")
+        val = (sensor_id, data, created_at, updated_at)
     cursor.execute(sql, val)
     mydb.commit()
     print("Registro realizado")
@@ -50,24 +50,34 @@ def show(table):
     return myResult
 
 '''ACTUALIZAR DATOS'''
-def update(table, fieldSet, valueSet, update_at, valueWhere):
+def update(table, fieldSet, valueSet, updated_at, valueWhere):
+    if table == 'sensors':
+        fielWhere = 'id'
+    else:
+        fieldWhere = 'reg'
+
     sql = ("UPDATE " + table +
            " SET " + fieldSet + " = %s"
-           " WHERE id = %s")
+           " WHERE "+fielWhere+" = %s")
     val = (valueSet, valueWhere)
     cursor.execute(sql, val)
     mydb.commit()
     sql = ("UPDATE " + table +
-           " SET update_at = %s"
-           " WHERE id = %s")
-    val = (update_at, valueWhere)
+           " SET updated_at = %s"
+           " WHERE "+fielWhere+" = %s")
+    val = (updated_at, valueWhere)
     cursor.execute(sql, val)
     mydb.commit()
     print(cursor.rowcount, " fila(s) actualizada(s)")
 
 '''ELIMINAR DATOS'''
 def delete(table, valueID):
-    sql = ("DELETE FROM " + table + " WHERE id = %s")
+    if table == 'sensors':
+        fielWhere = 'id'
+    else:
+        fieldWhere = 'reg'
+
+    sql = ("DELETE FROM " + table + " WHERE "+fielWhere+" = %s")
     val = (valueID,)
     cursor.execute(sql, val)
     mydb.commit()

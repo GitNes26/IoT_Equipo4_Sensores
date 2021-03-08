@@ -58,30 +58,33 @@ def SubMenu():
 def show(table):
     if table == 'sensors':
         reg = S.show(db[1])
-        print("| ID ||   SENSOR\t||   CREATE_AT\t\t||   UPDATE_AT\t\t|")
+        print("|REG|| ID \t||   SENSOR\t\t\t|| COM ||\t\t DESCRIPTION\t\t\t\t||\t   CREATED_AT\t\t\t||\t   UPDATED_AT\t\t\t|")
         for r in reg:
             if db[1] == 'mysql':
-                print("| "+str(r[0])+"\t||"+str(r[1])+"\t||"+str(r[2])+"\t||"+str(r[3])+"\t|")
+                print("| "+str(r[0])+"\t|| "+str(r[1])+"\t||"+str(r[2])+"\t\t||"+str(r[3])+"\t||"+str(r[4])+"\t||"+str(r[5])+"\t||"+str(r[6])+"\t|")
             elif db[1] == 'mongo':
-                print("| "+str(r['id'])+"\t||"+str(r['sensor'])+"\t|" + str(r['create_at']) + "\t||" + str(r['update_at']) + "\t|")
+                print("| "+str(r['reg'])+"\t|| "+str(r['id'])+"\t||"+str(r['sensor'])+"\t|| "+str(r['com'])+"\t|| "+str(r['description'])+"\t||" + str(r['created_at']) + "\t||" + str(r['updated_at']) + "\t|")
             else:
                 print("en json")
     else:
         reg = R.show(db[1])
-        print("| ID ||   SENSOR_ID\t||   DATA\t\t||   CREATE_AT\t\t||   UPDATE_AT\t\t|")
+        print("|REG||   SENSOR_ID\t\t||   DATA\t||\t   CREATED_AT\t\t\t||\t   UPDATED_AT\t\t\t|")
         for r in reg:
             if db[1] == 'mysql':
-                print("| " + str(r[0]) + "\t||" + str(r[1]) + "\t||" + str(r[2]) + "\t||" + str(r[3]) + "\t||" + str(r[4]) + "\t|")
+                print("| " + str(r[0]) + "\t||" + str(r[1]) + "\t||" + str(r[2]) + "\t||" + str(r[5]) + "\t||" + str(r[6]) + "\t|")
             elif db[1] == 'mongo':
-                print("| " + str(r['id']) + "\t||" + str(r['sensor_id']) + "\t||" + str(r['data']) + "\t||" + str(r['create_at']) + "\t||" + str(r['update_at']) + "\t|")
+                print("| " + str(r['reg']) + "\t||" + str(r['sensor_id']) + "\t||" + str(r['data']) + "\t||" + str(r['created_at']) + "\t||" + str(r['updated_at']) + "\t|")
             else:
                 print("en json")
 
 def insert(table):
     if table == 'sensors':
+        id = input("| Clave del sensor: ")
         sensor = input("| Nombre del sensor: ")
+        com = input("| Puerto del sensor: ")
+        description = input("| Descripcion del sensor: ")
         date = str(datetime.datetime.now())
-        S.insert(sensor, date, db[1])
+        S.insert(id, sensor, com, description, date, db[1])
         print("| Sensor registrado")
     else:
         sensor_id = input("| Id del sensor: ")
@@ -97,7 +100,7 @@ def update(table):
     #fieldWhere = input("Donde el campo: ")
     #conditional = input("Sea...(=,<,>,...): ")
     #valueWhere = input("Al valor: ")
-    valueWhere = int(input("Al que tenga el ID: "))
+    valueWhere = (input("Al que tenga el ID: "))
     if table == 'sensors':
         #S.update(fieldSet, valueSet, date, fieldWhere, conditional, valueWhere)
         S.update(fieldSet, valueSet, date, valueWhere, db[1])
@@ -113,7 +116,7 @@ def delete(table):
         S.delete(valueID, db[1])
         print("| Sensor Eliminado")
     else:
-        valueID = input("ID del registro: ")
+        valueID = input("No. del registro: ")
         R.delete(valueID, db[1])
         print("| Registro eliminado")
 
@@ -140,10 +143,10 @@ while menu != True:
             action = SubMenu()
             if action == "1":
                 print(
-                    "|-------------------------------- MOSTRAR ----------------------------------|")
+                    "|------------------------------------------ MOSTRAR --------------------------------------------|")
                 show(table)
                 print(
-                    "|---------------------------------------------------------------------------|\n")
+                    "|-----------------------------------------------------------------------------------------------|\n")
             elif action == "2":
                 print("|------------------ REGISTRAR -------------------|")
                 insert(table)
