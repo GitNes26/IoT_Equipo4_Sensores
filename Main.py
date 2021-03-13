@@ -1,10 +1,10 @@
 import datetime
-from Classes.Sensor import Sensor as sensor
-from Classes.Result import Result as result
+from Classes.Sensor import Sensor
+from Classes.Result import Result
 #import GPIO
 
-S = sensor()
-R = result()
+S = Sensor()
+R = Result()
 dbTitle = ''
 dbs = ''
 menu = True
@@ -85,7 +85,14 @@ def insert(table):
         print("| Sensor registrado")
     else:
         sensor_id = input("| Id del sensor: ")
-        data = input("| Dato de lectura: ")
+        com = R.getCom(sensor_id)
+        print('Com en menu: ', com)
+        if com in ('3','5','7','8','10','11','12','13','15'): #Tipo FLOAT/DOUBLE/INT/DECIMAL
+            data = input("| Dato de lectura: ")
+        elif com in ('16','18','19','21','22','23','24','26','29'): #Tipo STRING
+            data = float(input("| Dato de lectura: "))
+        elif com in ('31','32','33','35','36','37','38','40'): #Tipo BOOLEAN
+            data = bool(input("| Dato de lectura: "))
         date = str(datetime.datetime.now())
         R.insert(sensor_id, data, date, db[1])
         print("| Registro agregado")

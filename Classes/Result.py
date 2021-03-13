@@ -42,3 +42,8 @@ class Result:
     def delete(self, valueID, db):
         mydb = self.selectDB(db)
         mydb.delete('results', valueID)
+
+    def getCom(self,sensor_id):
+        mydb = mysql
+        com = mydb.getCom(sensor_id=sensor_id)
+        return com

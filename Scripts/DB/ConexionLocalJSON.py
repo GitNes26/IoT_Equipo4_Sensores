@@ -1,6 +1,6 @@
 import json
-from .. ..Classes.Sensor import Sensor
-from .. ..Classes.Result import  Result
+from P2_Sensores.Classes.Sensor import Sensor
+from P2_Sensores.Classes.Result import Result
 
 S = Sensor()
 R = Result()
@@ -21,19 +21,20 @@ def listsJSON(list):
     return (data, dataJSON, nameList)
 
 
-def getId(list):
+def getReg(list):
     data = listsJSON(list)
     with open('Scripts/DataJSON/'+data[1]) as f:
         listJSON = json.load(f)
         for i in listJSON[data[2]]:
-            id = i['id']
-        id += 1
-    return id
+            reg = i['reg']
+        reg += 1
+    return reg
 
 def insert(list,  Object, id, sensor=None, sensor_id=None, data=None, create_at=None, update=None):
     data = listsJSON(list)
-    getId(list)
+    getReg(list)
+
     with open('Scripts/DataJSON/'+data[1]) as f:
         listJSON = json.load(f)
         for i in listJSON[data[2]]:
-            id = i['id']
+            reg = i['reg']

@@ -17,7 +17,7 @@ for x in cursor:
     v = False
 if v:
     cursor.execute("CREATE TABLE sensors (reg int AUTO_INCREMENT PRIMARY KEY, id VARCHAR(20), sensor VARCHAR(50), com VARCHAR(20), description VARCHAR(255), created_at VARCHAR(100), updated_at VARCHAR (100))")
-    cursor.execute("CREATE TABLE results (reg Int AUTO_INCREMENT PRIMARY KEY, sensor_id int , data_double DOUBLE, data_string VARCHAR(100), data_bool BOOLEAN, created_at VARCHAR(100), updated_at VARCHAR (100))")
+    cursor.execute("CREATE TABLE results (reg Int AUTO_INCREMENT PRIMARY KEY, sensor_id VARCHAR(20) , data_double DOUBLE, data_string VARCHAR(100), data_bool BOOLEAN, created_at VARCHAR(100), updated_at VARCHAR (100))")
     cursor.execute("SHOW TABLES")
 else:
     pass
@@ -34,11 +34,31 @@ def insert(table, id=None, sensor=None, sensor_id=None, com=None, description=No
         sql = "INSERT INTO " + table + " (id, sensor, com, description, created_at, updated_at) VALUES (%s,%s,%s,%s,%s,%s)"
         val = (id, sensor, com, description, created_at, updated_at)
     else:
-        sql = ("INSERT INTO " + table + " (sensor_id, data_string, created_at, updated_at) VALUES (%s,%s,%s,%s)")
+        fieldData = filterData(data)
+        sql = ("INSERT INTO " + table + " (sensor_id, " + fieldData + ", created_at, updated_at) VALUES (%s,%s,%s,%s)")
         val = (sensor_id, data, created_at, updated_at)
     cursor.execute(sql, val)
     mydb.commit()
-    print("Registro realizado")
+    print("| Registro realizado")
+
+'''FILTRAR TIPO DE DATO'''
+def filterData(data):
+    typee = type(data)
+    if typee == str:
+        fieldData = 'data_string'
+    elif typee == float:
+        fieldData = 'data_double'
+    else:
+        fieldData = 'data_bool'
+    return fieldData
+
+'''OBTENER EL COM DEL SENSOR'''
+def getCom(sensor_id):
+    sql = ("SELECT * FROM sensors WHERE id = '" + sensor_id + "'")
+    cursor.execute(sql)
+    comm = cursor.fetchone()
+    com = comm[3]
+    return com
 
 
 '''MOSTRAR DATOS'''
@@ -68,7 +88,7 @@ def update(table, fieldSet, valueSet, updated_at, valueWhere):
     val = (updated_at, valueWhere)
     cursor.execute(sql, val)
     mydb.commit()
-    print(cursor.rowcount, " fila(s) actualizada(s)")
+    print("| " + cursor.rowcount, " fila(s) actualizada(s)")
 
 '''ELIMINAR DATOS'''
 def delete(table, valueID):
@@ -81,4 +101,4 @@ def delete(table, valueID):
     val = (valueID,)
     cursor.execute(sql, val)
     mydb.commit()
-    print(cursor.rowcount, " registro(s) eliminado(s)")
+    print("| " + cursor.rowcount, " registro(s) eliminado(s)")
