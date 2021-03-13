@@ -1,6 +1,3 @@
-import Scripts.ConexionMySQL as mysql
-import Scripts.ConexionMongoDB as mongo
-
 t = 'sensors'
 s = 'sensorPIR'
 

@@ -1,6 +1,6 @@
-import Scripts.ConexionLocalJSON as json
-import Scripts.ConexionMySQL as mysql
-import Scripts.ConexionMongoDB as mongo
+import Scripts.DB.ConexionLocalJSON as json
+import Scripts.DB.ConexionMySQL as mysql
+import Scripts.DB.ConexionMongoDB as mongo
 
 
 class Sensor:
@@ -35,10 +35,6 @@ class Sensor:
     def update(self, fieldSet, valueSet, date, valueWhere, db):
         mydb = self.selectDB(db)
         mydb.update('sensors', fieldSet=fieldSet, valueSet=valueSet, updated_at=date, valueWhere=valueWhere)
-
-    #def update(self, fieldSet, valueSet, date, fieldWhere, conditional, valueWhere, db):
-    #    mydb = self.selectDB(db)
-    #    mydb.update('sensors', fieldSet, valueSet, date, fieldWhere, conditional, valueWhere)
 
     def delete(self, valueID, db):
         mydb = self.selectDB(db)

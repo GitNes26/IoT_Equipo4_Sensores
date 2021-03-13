@@ -1,6 +1,6 @@
-import Scripts.ConexionLocalJSON as json
-import Scripts.ConexionMySQL as mysql
-import Scripts.ConexionMongoDB as mongo
+import Scripts.DB.ConexionLocalJSON as json
+import Scripts.DB.ConexionMySQL as mysql
+import Scripts.DB.ConexionMongoDB as mongo
 
 
 class Result:

@@ -17,22 +17,19 @@ def selectDB():
     print("|     1.- MySQL     2.- MongoDB     3.- LocalJSON    |")
     mydb = input("| Elige que base de datos desea utilizar: ")
     if mydb == '1':
-        #mydb = mysql
         print("|                BD -> MySQL                         |")
         dbTitle = "-MySQL-"
         dbs = 'mysql'
     elif mydb == '2':
-        #mydb = mongo
         print("|                BD -> MongoDB                       |")
         dbTitle = "MongoDB"
         dbs = 'mongo'
     else:
-        #mydb = json
         print("|                BD -> LocalJSON                     |")
         dbTitle = "-JSON--"
         dbs = 'json'
     print("|                                                    |")
-    return (dbTitle, dbs)#,mydb)
+    return (dbTitle, dbs)
 
 def menu():
     print("|----------------------- MENU -------------" + db[0] + "---|")
@@ -68,7 +65,7 @@ def show(table):
                 print("en json")
     else:
         reg = R.show(db[1])
-        print("|REG||   SENSOR_ID\t\t||   DATA\t||\t   CREATED_AT\t\t\t||\t   UPDATED_AT\t\t\t|")
+        print("|REG|| SENSOR_ID ||   DATA\t||\t   CREATED_AT\t\t\t||\t   UPDATED_AT\t\t\t|")
         for r in reg:
             if db[1] == 'mysql':
                 print("| " + str(r[0]) + "\t||" + str(r[1]) + "\t||" + str(r[2]) + "\t||" + str(r[5]) + "\t||" + str(r[6]) + "\t|")

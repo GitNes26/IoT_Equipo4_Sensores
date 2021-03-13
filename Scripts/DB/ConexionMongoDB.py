@@ -10,12 +10,12 @@ colR = mydb['results']
 print("MongoDB -> conectado")
 
 '''SEEDERS'''
-#data = {"reg": 0, "id": "0-A", "sensor": "Nombre del Sensor", "com": "puerto de conexion", "description": "descripcion", "created_at": "00-00-00 00:00", "updated_at": "00-00-00 00:00"}
-#s = colS.insert_one(data)
+data = {"reg": 0, "id": "0-A", "sensor": "Nombre del Sensor", "com": "puerto de conexion", "description": "descripcion", "created_at": "00-00-00 00:00", "updated_at": "00-00-00 00:00"}
+s = colS.insert_one(data)
 #print(s.inserted_id)
 
-#data = {"reg": 0, "sensor_id": 0, "data": 0.0, "created_at": "00-00-00 00:00", "updated_at": "00-00-00 00:00"}
-#r = colR.insert_one(data)
+data = {"reg": 0, "sensor_id": 0, "data": 0.0, "created_at": "00-00-00 00:00", "updated_at": "00-00-00 00:00"}
+r = colR.insert_one(data)
 #print(r.inserted_id)
 
 
@@ -39,7 +39,6 @@ def insert(collection, id=None, sensor=None, sensor_id=None, com=None, descripti
     c = col.find({}, {"_id": 0, "reg":1, "id": 1}).sort("id", -1).limit(1)
     for i in c:
         r = int(i['reg'])
-        #d = int(i['id'])
 
     if collection == 'sensors':
         data = {
