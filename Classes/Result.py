@@ -23,7 +23,7 @@ class Result:
     def insert(self, sensor_id, data, date, db):
         mydb = self.selectDB(db)
         newResult = Result(sensor_id=sensor_id, data=data, created_at=date, updated_at=date)
-        mydb.insert('results', sensor_id=newResult.sensor_id, data=newResult.data, created_at=newResult.created_at, updated_at=newResult.updated_at)
+        mydb.insert('results', sensor_id=newResult.sensor_id, dataList=newResult.data, created_at=newResult.created_at, updated_at=newResult.updated_at)
 
     def show(self, db):
         mydb = self.selectDB(db)

@@ -86,7 +86,6 @@ def insert(table):
     else:
         sensor_id = input("| Id del sensor: ")
         com = R.getCom(sensor_id)
-        print('Com en menu: ', com)
         if com in ('3','5','7','8','10','11','12','13','15'): #Tipo FLOAT/DOUBLE/INT/DECIMAL
             data = input("| Dato de lectura: ")
         elif com in ('16','18','19','21','22','23','24','26','29'): #Tipo STRING
