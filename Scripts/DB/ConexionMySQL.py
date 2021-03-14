@@ -72,19 +72,19 @@ def show(table):
 '''ACTUALIZAR DATOS'''
 def update(table, fieldSet, valueSet, updated_at, valueWhere):
     if table == 'sensors':
-        fielWhere = 'id'
+        fieldWhere = 'id'
     else:
         fieldWhere = 'reg'
 
     sql = ("UPDATE " + table +
            " SET " + fieldSet + " = %s"
-           " WHERE "+fielWhere+" = %s")
+           " WHERE "+fieldWhere+" = %s")
     val = (valueSet, valueWhere)
     cursor.execute(sql, val)
     mydb.commit()
     sql = ("UPDATE " + table +
            " SET updated_at = %s"
-           " WHERE "+fielWhere+" = %s")
+           " WHERE "+fieldWhere+" = %s")
     val = (updated_at, valueWhere)
     cursor.execute(sql, val)
     mydb.commit()
@@ -93,11 +93,11 @@ def update(table, fieldSet, valueSet, updated_at, valueWhere):
 '''ELIMINAR DATOS'''
 def delete(table, valueID):
     if table == 'sensors':
-        fielWhere = 'id'
+        fieldWhere = 'id'
     else:
         fieldWhere = 'reg'
 
-    sql = ("DELETE FROM " + table + " WHERE "+fielWhere+" = %s")
+    sql = ("DELETE FROM " + table + " WHERE "+fieldWhere+" = %s")
     val = (valueID,)
     cursor.execute(sql, val)
     mydb.commit()

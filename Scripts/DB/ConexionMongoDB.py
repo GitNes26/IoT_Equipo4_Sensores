@@ -10,12 +10,12 @@ colR = mydb['results']
 print("MongoDB -> conectado")
 
 '''SEEDERS'''
-data = {"reg": 0, "id": "0-A", "sensor": "Nombre del Sensor", "com": "puerto de conexion", "description": "descripcion", "created_at": "00-00-00 00:00", "updated_at": "00-00-00 00:00"}
-s = colS.insert_one(data)
+#data = {"reg": 0, "id": "0-A", "sensor": "Nombre del Sensor", "com": "puerto de conexion", "description": "descripcion", "created_at": "00-00-00 00:00", "updated_at": "00-00-00 00:00"}
+#s = colS.insert_one(data)
 #print(s.inserted_id)
 
-data = {"reg": 0, "sensor_id": 0, "data": 0.0, "created_at": "00-00-00 00:00", "updated_at": "00-00-00 00:00"}
-r = colR.insert_one(data)
+#data = {"reg": 0, "sensor_id": 0, "data": 0.0, "created_at": "00-00-00 00:00", "updated_at": "00-00-00 00:00"}
+#r = colR.insert_one(data)
 #print(r.inserted_id)
 
 
@@ -50,7 +50,7 @@ def insert(collection, id=None, sensor=None, sensor_id=None, com=None, descripti
             "created_at": created_at,
             "updated_at": updated_at
         }
-        x = colS.insert_one(data)
+        colS.insert_one(data)
 
     else:
         data = {
@@ -60,8 +60,8 @@ def insert(collection, id=None, sensor=None, sensor_id=None, com=None, descripti
             "created_at": created_at,
             "updated_at": updated_at
         }
-        x = colR.insert_one(data)
-    print("Documento agregado")
+        colR.insert_one(data)
+    print("| Documento agregado")
 
 
 '''MOSTRAR DOCUMENTO'''
@@ -78,22 +78,22 @@ def update(collection, fieldSet, valueSet, updated_at, valueWhere):
     col = selectCollection(collection)
 
     if collection == 'sensors':
-        fielWhere = 'id'
+        fieldWhere = 'id'
     else:
         fieldWhere = 'reg'
 
     query = {fieldWhere: valueWhere}
     val = {"$set": {fieldSet: valueSet}}
 
-    x = col.update_one(query, val)
-    updateAt(collection, updated_at, valueSet, fieldWhere)
+    col.update_one(query, val)
+    updateAt(collection, updated_at, valueWhere, fieldWhere)
 def updateAt(collection, updated_at, id, fieldWhere):
     col = selectCollection(collection)
     query = {fieldWhere: id}
     val = {"$set": {"updated_at": updated_at}}
 
     x = col.update_one(query, val)
-    print(x.modified_count, " fecha actualizada")
+    print(x.modified_count, "| fecha actualizada")
 
 
 '''ELIMINAR DOCUMENTO'''
@@ -101,10 +101,10 @@ def delete(collection, valueID):
     col = selectCollection(collection)
 
     if collection == 'sensors':
-        fielWhere = 'id'
+        fieldWhere = 'id'
     else:
         fieldWhere = 'reg'
 
     query = {fieldWhere: valueID}
     x = col.delete_one(query)
-    print(x.deleted_count, " documento(s) eliminado(s)")
+    print(x.deleted_count, "| documento(s) eliminado(s)")
